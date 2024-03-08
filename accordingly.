@@ -1,0 +1,37 @@
+import React, { useEffect } from "react";
+import { Box, Center, CircularProgress, Text, useToast } from "@chakra-ui/react";
+
+const Index = () => {
+  const toast = useToast();
+
+  useEffect(() => {
+    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+    // Check if user is on iOS
+    if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+      window.location.replace("https://apps.apple.com/app/id"); // replace with your iOS app link
+    }
+    // Check if user is on Android
+    else if (/android/i.test(userAgent)) {
+      window.location.replace("https://play.google.com/store/apps/details?id="); // replace with your Android app link
+    } else {
+      // If device is not iOS or Android, inform the user
+      toast({
+        title: "Unsupported Device",
+        description: "We're sorry, but we currently only support iOS and Android devices.",
+        status: "warning",
+        duration: 9000,
+        isClosable: true,
+      });
+    }
+  }, [toast]);
+
+  return (
+    <Center h="100vh" flexDirection="column">
+      <CircularProgress isIndeterminate color="blue.300" />
+      <Text mt={4}>Redirecting you to the app store...</Text>
+    </Center>
+  );
+};
+
+export default Index;
